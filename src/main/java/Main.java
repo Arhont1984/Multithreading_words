@@ -1,13 +1,13 @@
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 
-    //Заводим переменные
-    static int countLength3 = 0;
-    static int countLength4 = 0;
-    static int countLength5 = 0;
-
     static String[] texts = new String[100_000];
+    //Заводим переменные
+    private static AtomicInteger countLength3 = new AtomicInteger(0);
+    private static AtomicInteger countLength4 = new AtomicInteger(0);
+    private static AtomicInteger countLength5 = new AtomicInteger(0);
 
     public static void main(String[] args) {
         Random random = new Random();
@@ -31,11 +31,12 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //Выводи результат
+        //Выводим результат
         System.out.println("Красивых слов с длиной 3: " + countLength3 + " шт");
         System.out.println("Красивых слов с длиной 4: " + countLength4 + " шт");
         System.out.println("Красивых слов с длиной 5: " + countLength5 + " шт");
     }
+
     //Генератор текстов
     public static String generateText(String letters, int length) {
         Random random = new Random();
@@ -45,6 +46,7 @@ public class Main {
         }
         return text.toString();
     }
+
     //Проверщик на палиндром
     private static boolean isPalindrome(String s) {
         int left = 0;
@@ -58,6 +60,7 @@ public class Main {
         }
         return true;
     }
+
     //Проверщик на повторяющиесе буквы
     private static boolean hasSameLetters(String s) {
         char firstChar = s.charAt(0);
@@ -68,6 +71,7 @@ public class Main {
         }
         return true;
     }
+
     //Проверщик на последовательность символов
     private static boolean isIncreasingOrder(String s) {
         char[] arr = s.toCharArray();
@@ -78,43 +82,49 @@ public class Main {
         }
         return true;
     }
-    //Счётик  палиндрома
-    private static void countPalindromes() {
-        for (String text : texts) {
-            if (text.length() == 3 && isPalindrome(text)) {
-                countLength3++;
-            } else if (text.length() == 4 && isPalindrome(text)) {
-                countLength4++;
-            } else if (text.length() == 5 && isPalindrome(text)) {
-                countLength5++;
-            }
-        }
-    }
-    //Счётчик повторов
-    private static void countSameLetter() {
-        for (String text : texts) {
-            if (text.length() == 3 && hasSameLetters(text)) {
-                countLength3++;
-            } else if (text.length() == 4 && hasSameLetters(text)) {
-                countLength4++;
-            } else if (text.length() == 5 && hasSameLetters(text)) {
-                countLength5++;
-            }
-        }
-    }
+
     //Счётчик последовательных символов
     private static void countIncreasingOrder() {
         for (String text : texts) {
             if (text.length() == 3 && isIncreasingOrder(text)) {
-                countLength3++;
+                countLength3.incrementAndGet();
             } else if (text.length() == 4 && isIncreasingOrder(text)) {
-                countLength4++;
+                countLength4.incrementAndGet();
             } else if (text.length() == 5 && isIncreasingOrder(text)) {
-                countLength5++;
+                countLength5.incrementAndGet();
             }
         }
     }
+
+    //Счётик  палиндрома
+    private static void countPalindromes() {
+        for (String text : texts) {
+            if (text.length() == 3 && isPalindrome(text)) {
+                countLength3.incrementAndGet();
+            } else if (text.length() == 4 && isPalindrome(text)) {
+                countLength4.incrementAndGet();
+            } else if (text.length() == 5 && isPalindrome(text)) {
+                countLength5.incrementAndGet();
+            }
+        }
+    }
+
+    //Счётчик повторов
+    private static void countSameLetter() {
+        for (String text : texts) {
+            if (text.length() == 3 && hasSameLetters(text)) {
+                countLength3.incrementAndGet();
+            } else if (text.length() == 4 && hasSameLetters(text)) {
+                countLength4.incrementAndGet();
+            } else if (text.length() == 5 && hasSameLetters(text)) {
+                countLength5.incrementAndGet();
+            }
+        }
+    }
+
 }
+
+
 
 
 
